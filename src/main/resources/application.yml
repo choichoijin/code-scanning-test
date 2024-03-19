@@ -1,9 +1,17 @@
 spring:
   application:
     name: action-springboot
+  profiles:
+    active: dev #선택할 환경 값 입력 그럼 알아서 맞는 값 가져옴
+---
+#----dev 환경 시작----
+spring:
+  config:
+    activate:
+      on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql-container:3306/action?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/action?serverTimezone=Asia/Seoul
     username: root
     password: caramel1234
   jpa:
@@ -14,3 +22,22 @@ spring:
     hibernate:
       ddl-auto: create
     database-platform: org.hibernate.dialect.MySQLDialect
+#----dev 환경 끝----
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/action?serverTimezone=Asia/Seoul
+#    username: root
+#    password: 0000
+#  jpa:
+#    properties:
+#      hibernate:
+#        show_sql: true
+#        format_sql: true
+#    hibernate:
+#      ddl-auto: create #db ??? ??. ?? ??? ?? ? ??
+#    database-platform: org.hibernate.dialect.MySQLDialect
