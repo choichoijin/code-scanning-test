@@ -3,14 +3,14 @@ spring:
     name: action-springboot
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/action?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://mysql-container:3306/action?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
-    password: 0000
+    password: caramel1234
   jpa:
     properties:
       hibernate:
         show_sql: true
         format_sql: true
     hibernate:
-      ddl-auto: create #db ??? ??. ?? ??? ?? ? ??
+      ddl-auto: create
     database-platform: org.hibernate.dialect.MySQLDialect
