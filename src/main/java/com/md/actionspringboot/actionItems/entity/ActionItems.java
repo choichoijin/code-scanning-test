@@ -31,14 +31,14 @@ public class ActionItems {
 
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "type_group_code_id", referencedColumnName = "groupCodeId"),
+            @JoinColumn(name = "type_group_code_id", referencedColumnName = "group_code_id"),
             @JoinColumn(name = "type_code_value", referencedColumnName = "code_value")
     })
     private Code typeCodeId;
 
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "status_group_code_id", referencedColumnName = "groupCodeId"),
+            @JoinColumn(name = "status_group_code_id", referencedColumnName = "group_code_id"),
             @JoinColumn(name = "status_code_value", referencedColumnName = "code_value")
     })
     private Code statusCodeId;

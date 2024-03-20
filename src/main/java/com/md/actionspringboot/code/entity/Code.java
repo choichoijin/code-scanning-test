@@ -17,7 +17,7 @@ public class Code {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "groupCodeId", referencedColumnName = "group_code_id")
+    @JoinColumn(name = "group_code_id", referencedColumnName = "group_code_id")
     private GroupCode groupCodeId;
 
     @Id
