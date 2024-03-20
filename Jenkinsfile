@@ -33,7 +33,7 @@ pipeline {
     }
     stage('cleaning up'){
       steps{
-        sh "docker rmi $repository:latest" // docker image 제거
+        sh "docker rmi -f $repository:latest" // docker image 제거
       }
     }
  }
