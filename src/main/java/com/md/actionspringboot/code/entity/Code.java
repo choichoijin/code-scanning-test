@@ -3,10 +3,7 @@ package com.md.actionspringboot.code.entity;
 import com.md.actionspringboot.groupCode.entity.GroupCode;
 import com.md.actionspringboot.utils.SharedYnEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -14,12 +11,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "code")
+@Data
 @IdClass(CodeId.class)
 public class Code {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "groupCodeId")
+    @JoinColumn(name = "groupCodeId", referencedColumnName = "group_code_id")
     private GroupCode groupCodeId;
 
     @Id

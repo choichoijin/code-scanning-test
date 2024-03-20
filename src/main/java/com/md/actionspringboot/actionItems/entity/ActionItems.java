@@ -1,5 +1,6 @@
 package com.md.actionspringboot.actionItems.entity;
 
+import com.md.actionspringboot.code.entity.Code;
 import com.md.actionspringboot.code.entity.CodeId;
 import com.md.actionspringboot.utils.SharedYnEnum;
 import jakarta.annotation.Nullable;
@@ -28,11 +29,19 @@ public class ActionItems {
     @Enumerated(EnumType.STRING)
     private SharedYnEnum sharedYn;
 
-    @Column(name = "type_code_id")
-    private CodeId typeCodeId;
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "type_group_code_id", referencedColumnName = "groupCodeId"),
+            @JoinColumn(name = "type_code_value", referencedColumnName = "code_value")
+    })
+    private Code typeCodeId;
 
-    @Column(name = "status_code_id")
-    private CodeId statusCodeId;
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "status_group_code_id", referencedColumnName = "groupCodeId"),
+            @JoinColumn(name = "status_code_value", referencedColumnName = "code_value")
+    })
+    private Code statusCodeId;
 
     @Column(name = "title")
     private String title;

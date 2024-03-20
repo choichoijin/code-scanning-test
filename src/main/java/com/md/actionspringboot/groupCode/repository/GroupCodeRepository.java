@@ -1,4 +1,7 @@
 package com.md.actionspringboot.groupCode.repository;
 
-public interface GroupCodeRepository {
+import com.md.actionspringboot.groupCode.entity.GroupCode;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GroupCodeRepository extends JpaRepository<GroupCode, Long> {
 }

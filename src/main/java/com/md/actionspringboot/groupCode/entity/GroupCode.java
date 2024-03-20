@@ -23,9 +23,6 @@ public class GroupCode {
     @Column(name = "group_code_id")
     private Long groupCodeId;
 
-    @OneToMany(mappedBy = "groupCodeId")
-    private List<Code> codeIds;
-
     @Column(name = "group_code_name")
     private String groupCodeName;
 
