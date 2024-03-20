@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  database:
+    image: mysql:8.0.30-oracle
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_DATABASE: action
+      MYSQL_HOST: mysql-container
+      MYSQL_ROOT_PASSWORD: 0000
+      TZ: 'Asia/Seoul'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/conf.d:/etc/mysql/conf.d # MySQL 설정 파일 위치
+#    command:
+#      - "mysqld"
+#      - "--character-set-server=utf8mb4"
+#      - "--collation-server=utf8mb4_unicode_ci"

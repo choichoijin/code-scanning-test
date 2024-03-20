@@ -11,9 +11,8 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/action?serverTimezone=Asia/Seoul
-    username: root
-    password: caramel1234
+    url: jdbc:mysql://localhost:3306/action
+    password: 0000
   jpa:
     properties:
       hibernate:
