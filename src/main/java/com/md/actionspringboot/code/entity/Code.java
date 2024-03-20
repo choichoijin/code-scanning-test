@@ -16,7 +16,7 @@ import lombok.*;
 public class Code {
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_code_id", referencedColumnName = "group_code_id")
     private GroupCode groupCodeId;
 
@@ -24,7 +24,7 @@ public class Code {
     @Column(name = "code_value")
     private Long codeValue;
 
-    @Column(name = "code_name")
+    @Column(name = "code_name", columnDefinition = "VARCHAR(50)")
     private String codeName;
 
 }

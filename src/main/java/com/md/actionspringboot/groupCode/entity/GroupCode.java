@@ -23,7 +23,7 @@ public class GroupCode {
     @Column(name = "group_code_id")
     private Long groupCodeId;
 
-    @Column(name = "group_code_name")
+    @Column(name = "group_code_name", columnDefinition = "VARCHAR(50)")
     private String groupCodeName;
 
 }
