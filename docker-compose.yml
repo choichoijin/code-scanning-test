@@ -2,7 +2,7 @@ version: '3'
 
 services:
   database:
-    image: mysql:8.0.30-oracle
+    image: mysql:8.0.35-oracle
     container_name: mysql-container
     restart: always
     environment:
