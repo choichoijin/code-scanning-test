@@ -26,7 +26,7 @@ pipeline {
     // }
     stage('Build Image') {
             steps {
-                sh 'docker build -t action-springboot .'
+                sh 'docker build --platform linux/arm64 -t action-springboot .'
                 sh 'docker tag action-springboot:latest saehoon0501/action-springboot:latest'
             }
         }
