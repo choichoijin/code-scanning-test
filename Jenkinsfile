@@ -9,13 +9,11 @@ pipeline {
     dockerTool 'docker'
   }
   options {
-      skipDefaultCheckout(true)
+      buildDiscarder(logRotator(numToKeepStr:'30', artifactNumToKeepStr:'30'))
     }
   stages {
     stage('Build') {
       steps {
-        cleanWs()
-        checkout scm
         sh './gradlew clean build'
       }
     }
@@ -39,9 +37,6 @@ pipeline {
     stage('cleaning up'){
       steps{
         sh "docker rmi -f $repository:latest" // docker image 제거
-        cleanWs(cleanWhenNotBuilt: false,
-                deleteDirs: true,
-                notFailBuild: true)
       }
     }
  }
