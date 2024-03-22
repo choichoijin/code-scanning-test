@@ -48,5 +48,13 @@ pipeline {
         sh "docker rmi -f $repository:latest" // docker image 제거
       }
     }
+    stage('ECS update'){
+          when{
+            branch 'main'
+          }
+          steps{
+            sh "aws ecs update-service --cluster ${CLUSTER_ARN} --service ${SPRING_BOOT} --force-new-deployment"
+          }
+        }
  }
 }
