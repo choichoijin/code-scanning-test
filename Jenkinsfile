@@ -23,18 +23,27 @@ pipeline {
     //   }
     // }
     stage('Build Image') {
+            when{
+                    branch 'main'
+            }
             steps {
                 sh 'docker build --platform linux/arm64 -t action-springboot .'
                 sh 'docker tag action-springboot:latest saehoon0501/action-springboot:latest'
             }
         }
     stage('Docker Push') {
+            when{
+                branch 'main'
+            }
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin' // docker hub 로그인
                 sh 'docker push $repository:latest'
             }
     }
     stage('cleaning up'){
+      when{
+                    branch 'main'
+      }
       steps{
         sh "docker rmi -f $repository:latest" // docker image 제거
       }
