@@ -50,5 +50,6 @@ spring:
       port: 8080
     endpoints:
       web:
+        base-path: /api
       exposure:
         include: health
