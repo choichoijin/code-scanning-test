@@ -60,3 +60,4 @@ spring:
         base-path: /api
       exposure:
         include: health
+
