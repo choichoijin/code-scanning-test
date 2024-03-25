@@ -43,5 +43,12 @@ spring:
         show_sql: true
         format_sql: true
     hibernate:
-      ddl-auto: create #db ??? ??. ?? ??? ?? ? ??
+      ddl-auto: create
     database-platform: org.hibernate.dialect.MySQLDialect
+  management:
+    server:
+      port: 8080
+    endpoints:
+      web:
+      exposure:
+        include: health
