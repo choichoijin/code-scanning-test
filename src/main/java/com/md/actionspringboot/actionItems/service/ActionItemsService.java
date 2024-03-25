@@ -30,7 +30,7 @@ public class ActionItemsService {
             ActionItems actionItems = actionItemsOptional.get();
             if (!actionItems.getPassword().equals(password)) {
                 return ResponseDTO.builder()
-                        .status("fail")
+                        .status("success")
                         .message("패스워드가 일치하지 않습니다.")
                         .build();
             }
