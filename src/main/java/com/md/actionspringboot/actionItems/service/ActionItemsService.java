@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class ActionItemsService {
 
     private final ActionItemsRepository actionItemsRepository;
