@@ -44,11 +44,13 @@ public class ActionItemsService {
             actionItem.setSharedYn(SharedYnEnum.valueOf(updateItemDTO.getSharedYn()));
         }
         if (updateItemDTO.getType() != null) {
-            Code typeCode = codeRepository.findByCodeName(updateItemDTO.getType());
+            Code typeCode = codeRepository.findByCodeName(updateItemDTO.getType()).orElseThrow(() ->
+                    new Exception("해당하는 구분 코드가 없습니다."));
             actionItem.setTypeCodeId(typeCode);
         }
         if (updateItemDTO.getStatus() != null) {
-            Code statusCode = codeRepository.findByCodeName(updateItemDTO.getStatus());
+            Code statusCode = codeRepository.findByCodeName(updateItemDTO.getStatus()).orElseThrow(() ->
+                    new Exception("해당하는 상태 코드가 없습니다."));
             actionItem.setStatusCodeId(statusCode);
         }
         if (updateItemDTO.getTitle() != null) {
