@@ -16,7 +16,6 @@ import java.util.Optional;
 public class ActionItemsService {
     private final ActionItemsRepository actionItemsRepository;
     private final CodeRepository codeRepository;
-    private final GroupCodeRepository groupCodeRepository;
 
     public void register(CreateItemDto createItemDto) {
         String typeCodeName = createItemDto.getType();
