@@ -28,7 +28,6 @@ public class ActionItemsController {
     @CrossOrigin(origins = "http://localhost:5173")
     public GlobalResponse register(@RequestBody @Valid CreateItemDto createItemDto, BindingResult bindingResult) throws BindException {
             if (bindingResult.hasErrors()){
-                System.out.println(createItemDto);
                 throw new BindException(bindingResult);
             }
             actionItemsService.register(createItemDto);
