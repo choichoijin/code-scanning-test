@@ -26,6 +26,13 @@ spring:
   sql:
     init:
       mode: always
+  cloud:
+    aws:
+      credentials:
+        access-key: KEY
+        secret-key: SECRET
+      region:
+        static: ap-northeast-2
 #----dev 환경 끝----
 ---
 spring:
