@@ -13,9 +13,9 @@ public class CreateItemDto {
     private SharedYnEnum sharedYn;
 
     @NotBlank(message = "구분을 선택하세요.")
-    private String typeCodeName;
+    private String type;
 
-    private String statusCodeName;
+    private String status;
 
     @NotBlank(message = "제목을 입력하세요.")
     @Size(max = 100, message = "제목은 최대 100자까지 입력 가능합니다.")

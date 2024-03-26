@@ -19,8 +19,8 @@ public class ActionItemsService {
     private final GroupCodeRepository groupCodeRepository;
 
     public void register(CreateItemDto createItemDto) {
-        String typeCodeName = createItemDto.getTypeCodeName();
-        String statusCodeName = createItemDto.getStatusCodeName();
+        String typeCodeName = createItemDto.getType();
+        String statusCodeName = createItemDto.getStatus();
 
         // 코드 네임을 통한 조회
         Optional<Code> optionalType = codeRepository.findByCodeName(typeCodeName);
