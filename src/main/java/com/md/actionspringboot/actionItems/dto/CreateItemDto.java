@@ -29,5 +29,6 @@ public class CreateItemDto {
     private LocalDate dueDate;
 
     @NotBlank(message = "비밀번호를 입력하세요.")
+    @Pattern(regexp = "\\d{4}", message = "숫자 4자리를 입력하세요")
     private String password;
 }
