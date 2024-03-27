@@ -5,6 +5,7 @@ import com.md.actionspringboot.actionItems.service.ActionItemsService;
 import com.md.actionspringboot.utils.GlobalResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -34,5 +35,10 @@ public class ActionItemsController {
                     .status("success")
                     .message("Action Item 등록 성공")
                     .build();
+    }
+
+    @GetMapping("/presignedURL")
+    public String generatePresignedURL(){
+        return actionItemsService.invokeLambdaForPresignedURL("arn:aws:lambda:ap-northeast-2:975050279870:function:generateActionBucketPresignedURL");
     }
 }
