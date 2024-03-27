@@ -56,10 +56,19 @@ public class ActionItemsService {
         }
 
         ActionItems actionItems = actionItemsOptional.get();
-        boolean isPasswordMatch = actionItems.getPassword().equals(password);
+        boolean isPasswordMatch = false;
+        if (actionItems.getPassword().equals(password)) {
+            isPasswordMatch = true;
+            return ResponseDTO.builder()
+                    .status("success")
+                    .message("비밀번호가 일치합니다.")
+                    .data(isPasswordMatch)
+                    .build();
+        }
+
         return ResponseDTO.builder()
                 .status("success")
-                .message("비밀번호 확인 성공")
+                .message("비밀번호가 일치하지 않습니다.")
                 .data(isPasswordMatch)
                 .build();
 
