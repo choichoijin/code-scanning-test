@@ -5,7 +5,9 @@ import jakarta.validation.constraints.*;
 
 import lombok.*;
 
+import java.beans.Transient;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class CreateItemDto {
@@ -30,4 +32,10 @@ public class CreateItemDto {
 
     @NotBlank(message = "비밀번호를 입력하세요.")
     private String password;
+
+    @NotBlank()
+    private String uuid;
+
+    @Size(max = 3)
+    private List<String> attachments;
 }
