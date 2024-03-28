@@ -54,4 +54,6 @@ spring:
         base-path: /api
       exposure:
         include: health
-
+  sql:
+    init:
+      mode: always
