@@ -11,7 +11,7 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/action
+    url: jdbc:mysql://localhost:3306/action?createDatabaseIfNotExist=true
     username: root
     password: 0000
   jpa:
@@ -26,6 +26,13 @@ spring:
   sql:
     init:
       mode: always
+  cloud:
+    aws:
+      credentials:
+        access-key: KEY
+        secret-key: SECRET
+      region:
+        static: ap-northeast-2
 #----dev 환경 끝----
 ---
 spring:
@@ -34,7 +41,7 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${dbHost}t:${dbPort}/{dbName}?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&createDatabaseIfNotExist=true
     username: ${dbUsername}
     password: ${dbPassword}
   jpa:
@@ -43,5 +50,13 @@ spring:
         show_sql: true
         format_sql: true
     hibernate:
-      ddl-auto: create #db ??? ??. ?? ??? ?? ? ??
+      ddl-auto: create
     database-platform: org.hibernate.dialect.MySQLDialect
+  management:
+    server:
+      port: 8080
+    endpoints:
+      web:
+        base-path: /api
+      exposure:
+        include: health
