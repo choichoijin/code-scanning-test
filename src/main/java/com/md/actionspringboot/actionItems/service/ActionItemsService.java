@@ -10,13 +10,17 @@ import com.md.actionspringboot.code.repository.CodeRepository;
 import com.md.actionspringboot.common.dto.ResponseDTO;
 import com.md.actionspringboot.utils.SharedYnEnum;
 import jakarta.transaction.Transactional;
+import com.md.actionspringboot.groupCode.repository.GroupCodeRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.services.lambda.LambdaClient;
 import software.amazon.awssdk.services.lambda.model.InvokeRequest;
 import software.amazon.awssdk.services.lambda.model.InvokeResponse;
 import software.amazon.awssdk.services.lambda.model.LambdaException;
+
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -28,7 +32,7 @@ import java.util.Optional;
 public class ActionItemsService {
     private final ActionItemsRepository actionItemsRepository;
     private final CodeRepository codeRepository;
-
+    private final GroupCodeRepository groupCodeRepository;
     private final LambdaClient lambdaClient;
 
     public Long register(CreateItemDto createItemDto) {
@@ -105,11 +109,12 @@ public class ActionItemsService {
         actionItemsRepository.saveAndFlush(actionItem);
 
     }
-    public String invokeLambdaForPresignedURL(String functionName){
+    public String invokeLambdaForPresignedURL(String functionName,String uuid) {
         String result = null;
-        try{
-            String json = "{\"key\":\"testing\"}";
+        try {
+            String json = String.format("{\"key\":\"actionItem/%s/${filename}\"}",uuid);
             SdkBytes payload = SdkBytes.fromUtf8String(json);
+
             InvokeRequest request = InvokeRequest.builder()
                     .functionName(functionName)
                     .payload(payload)

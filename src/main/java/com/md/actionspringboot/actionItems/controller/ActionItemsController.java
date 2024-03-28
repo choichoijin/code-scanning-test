@@ -9,12 +9,15 @@ import com.md.actionspringboot.common.dto.PasswordDTO;
 import com.md.actionspringboot.common.dto.ResponseDTO;
 import com.md.actionspringboot.utils.GlobalResponse;
 import jakarta.validation.Valid;
+import com.md.actionspringboot.actionItems.dto.GetItemDTO;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 
 
 
@@ -26,6 +29,7 @@ public class ActionItemsController {
 
     private final ActionItemsService actionItemsService;
 
+    @CrossOrigin
     @GetMapping("")
     public ResponseEntity<?> getTest() {
         return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -68,11 +72,6 @@ public class ActionItemsController {
 
     }
 
-    @GetMapping("/presignedURL")
-    public String generatePresignedURL(){
-        return actionItemsService.invokeLambdaForPresignedURL("arn:aws:lambda:ap-northeast-2:975050279870:function:generateActionBucketPresignedURL");
-    }
-
     @DeleteMapping("/{actionId}")
     public ResponseEntity<ResponseDTO> doDeleteItems(@RequestBody PasswordDTO passwordDto,
                                                              @PathVariable Long actionId) {
@@ -106,5 +105,11 @@ public class ActionItemsController {
             responseDTO.setMessage(e.getMessage());
             return ResponseEntity.badRequest().body(responseDTO);
         }
+    }
+
+    @CrossOrigin
+    @GetMapping("/presignedURL")
+    public String generatePresignedURL(@RequestParam("uuid") String uuid){
+        return actionItemsService.invokeLambdaForPresignedURL("arn:aws:lambda:ap-northeast-2:975050279870:function:generateActionBucketPresignedURL",uuid);
     }
 }
