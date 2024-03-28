@@ -15,6 +15,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/action-items")
@@ -22,13 +23,11 @@ public class ActionItemsController {
 
     private final ActionItemsService actionItemsService;
 
-    @CrossOrigin
     @GetMapping("")
     public ResponseEntity<?> getTest() {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    @CrossOrigin
     @PostMapping
     public GlobalResponse register(@RequestBody @Valid CreateItemDto createItemDto, BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
@@ -42,7 +41,6 @@ public class ActionItemsController {
                 .build();
     }
 
-    @CrossOrigin
     @GetMapping("/{actionId}")
     public ResponseEntity<Object> getActionItem(@PathVariable Long actionId) {
         try {
@@ -53,7 +51,6 @@ public class ActionItemsController {
         }
     }
 
-    @CrossOrigin
     @PatchMapping("/{actionId}")
     public ResponseEntity<Object> updateActionItem(@PathVariable Long actionId, @RequestBody UpdateItemDTO updateItemDTO) {
         try {
@@ -99,7 +96,6 @@ public class ActionItemsController {
         }
     }
 
-    @CrossOrigin
     @GetMapping("/presignedURL")
     public String generatePresignedURL(@RequestParam("uuid") String uuid){
         return actionItemsService.invokeLambdaForPresignedURL("arn:aws:lambda:ap-northeast-2:975050279870:function:generateActionBucketPresignedURL", uuid);
