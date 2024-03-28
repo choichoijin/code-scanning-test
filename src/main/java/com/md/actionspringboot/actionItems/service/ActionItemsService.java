@@ -10,9 +10,20 @@ import com.md.actionspringboot.code.entity.CodeId;
 import com.md.actionspringboot.utils.SharedYnEnum;
 import jakarta.transaction.Transactional;
 import com.md.actionspringboot.code.repository.CodeRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
+import com.md.actionspringboot.groupCode.repository.GroupCodeRepository;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.json.JSONParser;
+import org.springframework.stereotype.Service;
+import software.amazon.awssdk.core.SdkBytes;
+import software.amazon.awssdk.services.lambda.LambdaClient;
+import software.amazon.awssdk.services.lambda.model.InvokeRequest;
+import software.amazon.awssdk.services.lambda.model.InvokeResponse;
+import software.amazon.awssdk.services.lambda.model.LambdaException;
+
+import java.time.Duration;
+import java.util.Map;
 import java.util.Optional;
 
 import java.time.LocalDate;
@@ -25,6 +36,8 @@ import java.time.format.DateTimeFormatter;
 public class ActionItemsService {
     private final ActionItemsRepository actionItemsRepository;
     private final CodeRepository codeRepository;
+
+    private final LambdaClient lambdaClient;
 
     public Long register(CreateItemDto createItemDto) {
         String typeCodeName = createItemDto.getType();
@@ -99,5 +112,23 @@ public class ActionItemsService {
 
         actionItemsRepository.saveAndFlush(actionItem);
 
+    }
+    public String invokeLambdaForPresignedURL(String functionName){
+        String result = null;
+        try{
+            String json = "{\"key\":\"testing\"}";
+            SdkBytes payload = SdkBytes.fromUtf8String(json);
+            InvokeRequest request = InvokeRequest.builder()
+                    .functionName(functionName)
+                    .payload(payload)
+                    .build();
+
+            InvokeResponse preSignedURL = lambdaClient.invoke(request);
+            result = preSignedURL.payload().asUtf8String();
+            return result;
+        }catch (LambdaException e){
+            System.err.println(e.getMessage());
+            return result;
+        }
     }
 }
