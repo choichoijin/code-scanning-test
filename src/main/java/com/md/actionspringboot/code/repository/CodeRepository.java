@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface CodeRepository extends JpaRepository<Code, CodeId> {
     Optional<Code> findByCodeName(String codeName);
+
 }
