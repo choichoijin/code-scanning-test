@@ -7,4 +7,5 @@ import lombok.*;
 public class GlobalResponse {
     private final String status;
     private final String message;
+    private final Object data;
 }

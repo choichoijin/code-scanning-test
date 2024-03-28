@@ -34,10 +34,11 @@ public class ActionItemsController {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
-        actionItemsService.register(createItemDto);
+        Long actionId = actionItemsService.register(createItemDto);
         return GlobalResponse.builder()
                 .status("success")
-                .message("Action Item 등록 성공")
+                .message("Action Item이 등록되었습니다.")
+                .data(actionId)
                 .build();
     }
 

@@ -26,11 +26,10 @@ public class ActionItemsService {
     private final ActionItemsRepository actionItemsRepository;
     private final CodeRepository codeRepository;
 
-    public void register(CreateItemDto createItemDto) {
+    public Long register(CreateItemDto createItemDto) {
         String typeCodeName = createItemDto.getType();
         String statusCodeName = createItemDto.getStatus();
 
-        // 코드 네임을 통한 조회
         Optional<Code> optionalType = codeRepository.findByCodeName(typeCodeName);
         Optional<Code> optionalStatus = codeRepository.findByCodeName(statusCodeName);
 
@@ -55,6 +54,7 @@ public class ActionItemsService {
                 .build();
 
         actionItemsRepository.saveAndFlush(actionItem);
+        return actionItem.getActionId();
     }
 
     public GetItemDTO getActionItem(Long actionId) throws Exception {
