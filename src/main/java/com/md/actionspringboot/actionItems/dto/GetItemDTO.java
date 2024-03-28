@@ -4,6 +4,7 @@ import com.md.actionspringboot.actionItems.entity.ActionItems;
 import lombok.*;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Builder
 @Getter
@@ -15,6 +16,9 @@ public class GetItemDTO {
     private String title;
     private String body;
     private String dueDate;
+    private List<String> attachments;
+    private String uuid;
+
 
     public static GetItemDTO generateFromEntities(ActionItems actionItem) {
         GetItemDTO getItemDTO = GetItemDTO
@@ -24,6 +28,8 @@ public class GetItemDTO {
                 .status(actionItem.getStatusCodeId().getCodeName())
                 .title(actionItem.getTitle())
                 .body(actionItem.getBody())
+                .uuid(actionItem.getUuid())
+                .attachments(actionItem.getAttachments())
                 .build();
 
         // Handle optional properties
