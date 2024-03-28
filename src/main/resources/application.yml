@@ -39,6 +39,7 @@ spring:
     username: ${dbUsername}
     password: ${dbPassword}
   jpa:
+    defer-datasource-initialization: true
     properties:
       hibernate:
         show_sql: true
