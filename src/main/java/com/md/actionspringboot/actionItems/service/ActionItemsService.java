@@ -1,20 +1,16 @@
 package com.md.actionspringboot.actionItems.service;
 
+import com.md.actionspringboot.actionItems.dto.CreateItemDto;
 import com.md.actionspringboot.actionItems.dto.GetItemDTO;
 import com.md.actionspringboot.actionItems.dto.UpdateItemDTO;
-import com.md.actionspringboot.actionItems.dto.CreateItemDto;
 import com.md.actionspringboot.actionItems.entity.ActionItems;
 import com.md.actionspringboot.actionItems.repository.ActionItemsRepository;
 import com.md.actionspringboot.code.entity.Code;
-import com.md.actionspringboot.code.entity.CodeId;
+import com.md.actionspringboot.code.repository.CodeRepository;
+import com.md.actionspringboot.common.dto.ResponseDTO;
 import com.md.actionspringboot.utils.SharedYnEnum;
 import jakarta.transaction.Transactional;
-import com.md.actionspringboot.code.repository.CodeRepository;
-
-import com.md.actionspringboot.groupCode.repository.GroupCodeRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.services.lambda.LambdaClient;
@@ -22,12 +18,8 @@ import software.amazon.awssdk.services.lambda.model.InvokeRequest;
 import software.amazon.awssdk.services.lambda.model.InvokeResponse;
 import software.amazon.awssdk.services.lambda.model.LambdaException;
 
-import java.time.Duration;
-import java.util.Map;
-import java.util.Optional;
-
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 
 @Service
@@ -130,5 +122,62 @@ public class ActionItemsService {
             System.err.println(e.getMessage());
             return result;
         }
+    }
+
+    @Transactional
+    public ResponseDTO deleteActionItems(Long actionId, String password) {
+
+            Optional<ActionItems> actionItemsOptional = actionItemsRepository.findById(actionId);
+            if (actionItemsOptional.isEmpty()) {
+                return ResponseDTO.builder()
+                        .status("fail")
+                        .message("일치하는 액션 아이템이 없습니다.")
+                        .build();
+            }
+
+            ActionItems actionItems = actionItemsOptional.get();
+            if (!actionItems.getPassword().equals(password)) {
+                return ResponseDTO.builder()
+                        .status("success")
+                        .message("패스워드가 일치하지 않습니다.")
+                        .build();
+            }
+
+            actionItemsRepository.delete(actionItems);
+            return ResponseDTO.builder()
+                    .status("success")
+                    .message("삭제 성공")
+                    .build();
+
+    }
+
+    @Transactional
+    public ResponseDTO checkPassword(Long actionId, String password) {
+
+        Optional<ActionItems> actionItemsOptional = actionItemsRepository.findById(actionId);
+
+        if (actionItemsOptional.isEmpty()) {
+            return ResponseDTO.builder()
+                    .status("fail")
+                    .message("일치하는 액션 아이템이 없습니다.")
+                    .build();
+        }
+
+        ActionItems actionItems = actionItemsOptional.get();
+        boolean isPasswordMatch = false;
+        if (actionItems.getPassword().equals(password)) {
+            isPasswordMatch = true;
+            return ResponseDTO.builder()
+                    .status("success")
+                    .message("비밀번호가 일치합니다.")
+                    .data(isPasswordMatch)
+                    .build();
+        }
+
+        return ResponseDTO.builder()
+                .status("success")
+                .message("비밀번호가 일치하지 않습니다.")
+                .data(isPasswordMatch)
+                .build();
     }
 }
