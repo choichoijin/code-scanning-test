@@ -56,6 +56,8 @@ public class ActionItemsService {
                 .body(createItemDto.getBody())
                 .dueDate(createItemDto.getDueDate())
                 .password(createItemDto.getPassword())
+                .uuid(createItemDto.getUuid())
+                .attachments(createItemDto.getAttachments())
                 .build();
 
         actionItemsRepository.saveAndFlush(actionItem);
