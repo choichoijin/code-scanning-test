@@ -8,12 +8,10 @@ import com.md.actionspringboot.actionItems.repository.ActionItemsRepository;
 import com.md.actionspringboot.code.entity.Code;
 import com.md.actionspringboot.code.repository.CodeRepository;
 import com.md.actionspringboot.common.dto.ResponseDTO;
+import com.md.actionspringboot.groupCode.repository.GroupCodeRepository;
 import com.md.actionspringboot.utils.SharedYnEnum;
 import jakarta.transaction.Transactional;
-import com.md.actionspringboot.groupCode.repository.GroupCodeRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.services.lambda.LambdaClient;
@@ -21,10 +19,8 @@ import software.amazon.awssdk.services.lambda.model.InvokeRequest;
 import software.amazon.awssdk.services.lambda.model.InvokeResponse;
 import software.amazon.awssdk.services.lambda.model.LambdaException;
 
-
 import java.time.LocalDate;
 import java.util.Optional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -129,7 +125,6 @@ public class ActionItemsService {
         }
     }
 
-    @Transactional
     public ResponseDTO deleteActionItems(Long actionId, String password) {
 
             Optional<ActionItems> actionItemsOptional = actionItemsRepository.findById(actionId);
@@ -156,7 +151,6 @@ public class ActionItemsService {
 
     }
 
-    @Transactional
     public ResponseDTO checkPassword(Long actionId, String password) {
 
         Optional<ActionItems> actionItemsOptional = actionItemsRepository.findById(actionId);
