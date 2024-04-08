@@ -16,7 +16,9 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 
 @Slf4j
 @CrossOrigin
@@ -125,9 +127,73 @@ public class ActionItemsController {
     }
 
     @GetMapping("/log")
-    public ResponseEntity<String> listS3BucketContents(@RequestParam("bucketName") String bucketName) {
+    public ResponseEntity<String> log(@RequestParam("bucketName") String bucketName) {
         String awsKey = "12345678";
         log.info(awsKey);
         return ResponseEntity.ok("aws key logged");
+    }
+
+    // 취약한 사용자 인증 메서드: 사용자 이름과 암호를 평문으로 받아들임
+    @PostMapping("/login")
+    public String login(@RequestBody String credentials) {
+        // 로그인 로직은 생략되었지만, 여기서는 credentials를 평문으로 받아들임
+        return "Logged in successfully";
+    }
+
+    // 취약한 데이터베이스 쿼리 메서드: 사용자 입력을 그대로 쿼리로 실행함
+    @PostMapping("/queryDatabase")
+    public String queryDatabase(@RequestBody String query) {
+        // 사용자 입력인 query를 그대로 데이터베이스에 전달하여 실행함
+        return executeQuery(query);
+    }
+
+    private String executeQuery(String query) {
+        // 실제 데이터베이스 쿼리 실행 로직은 생략되었지만, 여기서는 query를 그대로 실행함
+        return "Query executed: " + query;
+    }
+
+    // 취약한 셸 명령 실행 메서드: 사용자 입력을 그대로 셸 명령어로 실행함
+    @PostMapping("/executeCommand")
+    public String executeCommand(@RequestBody String command) {
+        try {
+            // 취약한 방식으로 셸 명령어를 실행함
+            Process process = Runtime.getRuntime().exec(command);
+
+            // 셸 명령어 실행 결과를 읽어들임
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            StringBuilder output = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append("\n");
+            }
+
+            // 셸 명령어 실행 결과를 반환함
+            return output.toString();
+        } catch (Exception e) {
+            return "Error executing command: " + e.getMessage();
+        }
+    }
+
+    // 취약한 객체 역직렬화 메서드: 직렬화된 데이터를 수신하여 객체로 역직렬화함
+    @PostMapping("/deserializeObject")
+    public String deserializeObject(@RequestBody byte[] serializedData) {
+        try {
+            // 직렬화된 데이터를 역직렬화하여 객체로 변환함
+            Object obj = SerializationUtils.deserialize(serializedData);
+
+            // 객체를 문자열로 변환하여 반환함 (여기서는 예시로 Map을 사용함)
+            return obj.toString();
+        } catch (Exception e) {
+            return "Error deserializing object: " + e.getMessage();
+        }
+    }
+
+    // 직렬화 유틸리티 클래스 (실제로는 Apache Commons SerializationUtils를 사용하지 않아야 함)
+    private static class SerializationUtils {
+        public static Object deserialize(byte[] serializedData) throws Exception {
+            // 취약한 방식으로 직렬화된 데이터를 역직렬화함
+            java.io.ObjectInputStream in = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serializedData));
+            return in.readObject();
+        }
     }
 }
