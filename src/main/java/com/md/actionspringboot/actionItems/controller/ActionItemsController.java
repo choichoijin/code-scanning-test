@@ -9,12 +9,16 @@ import com.md.actionspringboot.common.dto.ResponseDTO;
 import com.md.actionspringboot.utils.GlobalResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+
+@Slf4j
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
@@ -99,5 +103,31 @@ public class ActionItemsController {
     @GetMapping("/presignedURL")
     public String generatePresignedURL(@RequestParam("uuid") String uuid){
         return actionItemsService.invokeLambdaForPresignedURL("arn:aws:lambda:ap-northeast-2:975050279870:function:generateActionBucketPresignedURL", uuid);
+    }
+
+    //code scanning test
+    @DeleteMapping("/deleteFile")
+    public ResponseEntity<String> deleteFile(@RequestParam("filePath") String filePath) {
+        try {
+            File fileToDelete = new File(filePath);
+            if (fileToDelete.exists()) {
+                if (fileToDelete.delete()) {
+                    return ResponseEntity.ok("File deleted successfully");
+                } else {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete file");
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File not found");
+            }
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Security exception occurred");
+        }
+    }
+
+    @GetMapping("/log")
+    public ResponseEntity<String> listS3BucketContents(@RequestParam("bucketName") String bucketName) {
+        String awsKey = "12345678";
+        log.info(awsKey);
+        return ResponseEntity.ok("aws key logged");
     }
 }
