@@ -152,6 +152,11 @@ public class ActionItemsController {
         return "Query executed: " + query;
     }
 
+   private String executeQuery2(String query) {
+        // 실제 데이터베이스 쿼리 실행 로직은 생략되었지만, 여기서는 query를 그대로 실행함
+        return "Query executed: " + query;
+    }
+
     // 취약한 셸 명령 실행 메서드: 사용자 입력을 그대로 셸 명령어로 실행함
     @PostMapping("/executeCommand")
     public String executeCommand(@RequestBody String command) {
@@ -177,6 +182,20 @@ public class ActionItemsController {
     // 취약한 객체 역직렬화 메서드: 직렬화된 데이터를 수신하여 객체로 역직렬화함
     @PostMapping("/deserializeObject")
     public String deserializeObject(@RequestBody byte[] serializedData) {
+        try {
+            // 직렬화된 데이터를 역직렬화하여 객체로 변환함
+            Object obj = SerializationUtils.deserialize(serializedData);
+
+            // 객체를 문자열로 변환하여 반환함 (여기서는 예시로 Map을 사용함)
+            return obj.toString();
+        } catch (Exception e) {
+            return "Error deserializing object: " + e.getMessage();
+        }
+    }
+
+        // 취약한 객체 역직렬화 메서드: 직렬화된 데이터를 수신하여 객체로 역직렬화함
+    @PostMapping("/deserializeObject")
+    public String deserializeObject2(@RequestBody byte[] serializedData) {
         try {
             // 직렬화된 데이터를 역직렬화하여 객체로 변환함
             Object obj = SerializationUtils.deserialize(serializedData);
